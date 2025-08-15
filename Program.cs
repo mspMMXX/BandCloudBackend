@@ -9,6 +9,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+var cfg = app.Configuration;
+
+app.MapGet("/health/config", () => new
+{
+    StorageAccountName = cfg["STORAGE_ACCOUNT_NAME"],
+    StorageContainer = cfg["STORAGE_CONTAINER"],
+    SqlServer = cfg["SQL_SERVER"],
+    SqlDatabase = cfg["SQL_DATABASE"]
+});
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

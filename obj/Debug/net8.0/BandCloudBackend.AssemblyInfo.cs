@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("44de3607-234c-4d94-a4f6-ef2c169cfaae")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d1ade673790681e5b92ac4646bdd9eb6a34da7d")]
 [assembly: System.Reflection.AssemblyProductAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

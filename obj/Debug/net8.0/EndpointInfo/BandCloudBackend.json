@@ -1,0 +1,54 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BandCloudBackend",
+    "version": "1.0"
+  },
+  "paths": {
+    "/health/config": {
+      "get": {
+        "tags": [
+          "BandCloudBackend"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringStringStringString<>f__AnonymousType0"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StringStringStringString<>f__AnonymousType0": {
+        "type": "object",
+        "properties": {
+          "storageAccountName": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageContainer": {
+            "type": "string",
+            "nullable": true
+          },
+          "sqlServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "sqlDatabase": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
