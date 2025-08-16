@@ -18,5 +18,18 @@ namespace BandCloudBackend.Controllers
             var names = await _blob.ListFilesAsync();
             return Ok(names);
         }
+
+        [HttpPost] // POST /files
+        public async Task<IActionResult> Upload([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Keine Datei hochgeladen.");
+
+            using var stream = file.OpenReadStream();
+            await _blob.UploadAsync(file.FileName, stream);
+
+            return Ok(new { message = $"Datei '{file.FileName}' hochgeladen." });
+        }
+
     }
 }
