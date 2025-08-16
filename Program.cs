@@ -5,7 +5,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Standard-Setup
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "BandCloudBackend", Version = "v1" });
+
+    // --- FIX für File-Uploads ---
+    c.OperationFilter<FileUploadOperationFilter>();
+});
+
 builder.Services.AddSingleton<BandCloudBackend.Services.BlobStorageService>();
 
 var app = builder.Build();

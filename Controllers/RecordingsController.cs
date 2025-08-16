@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BandCloudBackend.Services;
+using BandCloudBackend.Models;
 
 namespace BandCloudBackend.Controllers
 {
-    // Attribute um den Controller als API-Controller zu kennzeichnen
     [ApiController]
     [Route("files")]
     public class RecordingsController : ControllerBase
@@ -20,16 +20,16 @@ namespace BandCloudBackend.Controllers
         }
 
         [HttpPost] // POST /files
-        public async Task<IActionResult> Upload([FromForm] IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Upload([FromForm] FileUploadDto dto)
         {
-            if (file == null || file.Length == 0)
+            if (dto.File == null || dto.File.Length == 0)
                 return BadRequest("Keine Datei hochgeladen.");
 
-            using var stream = file.OpenReadStream();
-            await _blob.UploadAsync(file.FileName, stream);
+            using var stream = dto.File.OpenReadStream();
+            await _blob.UploadAsync(dto.File.FileName, stream);
 
-            return Ok(new { message = $"Datei '{file.FileName}' hochgeladen." });
+            return Ok(new { message = $"Datei '{dto.File.FileName}' hochgeladen." });
         }
-
     }
 }

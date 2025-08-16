@@ -27,7 +27,6 @@ C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandClou
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\BandClou.23746089.Up2Date
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\BandCloudBackend.dll
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\refint\BandCloudBackend.dll
@@ -49,3 +48,4 @@ C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandClou
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\bin\Debug\net8.0\System.Memory.Data.dll
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\platt\OneDrive\07_IU\29_Cloud_Programming\01_Portfolio\00_Code\BandCloudBackend\BandCloudBackend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
