@@ -23,6 +23,18 @@
           }
         }
       }
+    },
+    "/files": {
+      "get": {
+        "tags": [
+          "Recordings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

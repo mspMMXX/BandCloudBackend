@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "BandCloudBackend.Controllers.RecordingsController",
+    "Method": "ListAsync",
+    "RelativePath": "files",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Program\u002B\u003C\u003Ec__DisplayClass0_0",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0",
     "RelativePath": "health/config",
