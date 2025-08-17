@@ -31,5 +31,30 @@ namespace BandCloudBackend.Controllers
 
             return Ok(new { message = $"Datei '{dto.File.FileName}' hochgeladen." });
         }
+
+        [HttpGet("{fileName}")] // GET /files/{fileName}
+        public async Task<IActionResult> Download(string fileName)
+        {
+            var stream = await _blob.DownloadAsync(fileName);
+
+            if (stream == null)
+            {
+                return NotFound($"Datei '{fileName}' nicht gefunden.");
+            }
+
+            return File(stream, "application/octet-stream", fileName);
+        }
+
+        [HttpGet("{fileName}/stream")]
+        public async Task<IActionResult> StreamFile(string fileName)
+        {
+            var file = await _blob.GetFileStreamAsync(fileName);
+
+            if (file == null)
+                return NotFound();
+
+            return File(file.Value.Stream, file.Value.ContentType);
+        }
+
     }
 }

@@ -46,5 +46,48 @@ namespace BandCloudBackend.Services
 
             await blob.UploadAsync(content, overwrite: true);
         }
+
+        //Datei herunterladen
+        public async Task<Stream> DownloadAsync(string fileName)
+        {
+            var container = _blobServiceClient.GetBlobContainerClient(_containerName);
+            var blob = container.GetBlobClient(fileName);
+
+            if (await blob.ExistsAsync())
+            {
+                var response = await blob.DownloadAsync();
+                return response.Value.Content;
+            }
+            return null;
+        }
+
+        //Datei-Stream abrufen und Content-Type ermitteln
+        public async Task<(Stream Stream, string ContentType)?> GetFileStreamAsync(string fileName)
+        {
+            var container = _blobServiceClient.GetBlobContainerClient(_containerName);
+            var blob = container.GetBlobClient(fileName);
+
+            if (!await blob.ExistsAsync())
+                return null;
+
+            // Blob-Stream öffnen
+            var stream = await blob.OpenReadAsync();
+
+            // ContentType anhand Dateiendung ermitteln
+            var contentType = "application/octet-stream";
+            if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+                contentType = "audio/mpeg";
+            else if (fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                     fileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+                contentType = "image/jpeg";
+            else if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                contentType = "image/png";
+            else if (fileName.EndsWith(".HEIC", StringComparison.OrdinalIgnoreCase) ||
+                     fileName.EndsWith(".heic", StringComparison.OrdinalIgnoreCase))
+                contentType = "image/heic";
+
+            return (stream, contentType);
+        }
+
     }
 }
