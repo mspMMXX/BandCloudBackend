@@ -1,22 +1,37 @@
+using BandCloudBackend.Data;
+using BandCloudBackend.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // Standard-Setup
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "BandCloudBackend", Version = "v1" });
-
-    // --- FIX für File-Uploads ---
-    c.OperationFilter<FileUploadOperationFilter>();
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BandCloudBackend", Version = "v1" });
+    c.OperationFilter<FileUploadOperationFilter>(); // <<< FIX für IFormFile
 });
 
+// EF DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Blob Storage Service
 builder.Services.AddSingleton<BandCloudBackend.Services.BlobStorageService>();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 
 var cfg = app.Configuration;
 
@@ -27,19 +42,5 @@ app.MapGet("/health/config", () => new
     SqlServer = cfg["SQL_SERVER"],
     SqlDatabase = cfg["SQL_DATABASE"]
 });
-
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

@@ -1,37 +1,41 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-public class FileUploadOperationFilter : IOperationFilter
+namespace BandCloudBackend.Models
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        var fileParams = context.ApiDescription.ParameterDescriptions
-            .Where(p => p.ModelMetadata?.ModelType == typeof(IFormFile));
 
-        if (fileParams.Any())
+    public class FileUploadOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            operation.RequestBody = new OpenApiRequestBody
+            var fileParams = context.ApiDescription.ParameterDescriptions
+                .Where(p => p.ModelMetadata?.ModelType == typeof(IFormFile));
+
+            if (fileParams.Any())
             {
-                Content =
+                operation.RequestBody = new OpenApiRequestBody
                 {
-                    ["multipart/form-data"] = new OpenApiMediaType
+                    Content =
                     {
-                        Schema = new OpenApiSchema
+                        ["multipart/form-data"] = new OpenApiMediaType
                         {
-                            Type = "object",
-                            Properties =
+                            Schema = new OpenApiSchema
                             {
-                                ["file"] = new OpenApiSchema
+                                Type = "object",
+                                Properties =
                                 {
-                                    Type = "string",
-                                    Format = "binary"
-                                }
-                            },
-                            Required = new HashSet<string> { "file" }
+                                    ["file"] = new OpenApiSchema
+                                    {
+                                        Type = "string",
+                                        Format = "binary"
+                                    }
+                                },
+                                Required = new HashSet<string> { "file" }
+                            }
                         }
                     }
-                }
-            };
+                };
+            }
         }
     }
 }

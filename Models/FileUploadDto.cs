@@ -1,7 +1,11 @@
-﻿namespace BandCloudBackend.Models
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BandCloudBackend.Models
 {
     public class FileUploadDto
     {
-        public IFormFile File { get; set; }
+        [FromForm(Name = "file")]
+        public IFormFile File { get; set; } = default!;
     }
 }

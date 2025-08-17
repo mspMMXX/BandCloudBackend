@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BandCloudBackend.Services;
+﻿using BandCloudBackend.Data;
 using BandCloudBackend.Models;
+using BandCloudBackend.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BandCloudBackend.Controllers
 {
@@ -19,18 +20,32 @@ namespace BandCloudBackend.Controllers
             return Ok(names);
         }
 
-        [HttpPost] // POST /files
+        [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Upload([FromForm] FileUploadDto dto)
+        public async Task<IActionResult> Upload([FromForm] FileUploadDto dto, [FromServices] AppDbContext db)
         {
-            if (dto.File == null || dto.File.Length == 0)
+            var file = dto.File;
+
+            if (file == null || file.Length == 0)
                 return BadRequest("Keine Datei hochgeladen.");
 
-            using var stream = dto.File.OpenReadStream();
-            await _blob.UploadAsync(dto.File.FileName, stream);
+            using var stream = file.OpenReadStream();
+            await _blob.UploadAsync(file.FileName, stream);
 
-            return Ok(new { message = $"Datei '{dto.File.FileName}' hochgeladen." });
+            var metadata = new RecordingMetadata
+            {
+                FileName = file.FileName,
+                FileSize = file.Length,
+                UploadedAt = DateTime.UtcNow
+            };
+
+            db.Recordings.Add(metadata);
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"Datei '{file.FileName}' hochgeladen und Metadaten gespeichert." });
         }
+
+
 
         [HttpGet("{fileName}")] // GET /files/{fileName}
         public async Task<IActionResult> Download(string fileName)
