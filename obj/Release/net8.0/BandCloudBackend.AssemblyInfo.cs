@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b35853986f15efe36ee0a3171ecf764950225650")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd89bf6d1ac2c720e8c0f83bd3625a1caf993c5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BandCloudBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
