@@ -2,6 +2,7 @@
 using BandCloudBackend.Models;
 using BandCloudBackend.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BandCloudBackend.Controllers
 {
@@ -14,37 +15,35 @@ namespace BandCloudBackend.Controllers
         public RecordingsController(BlobStorageService blob) => _blob = blob;
 
         [HttpGet] // GET /files
-        public async Task<IActionResult> ListAsync()
+        public async Task<ActionResult<IEnumerable<RecordingMetadata>>> ListAsync([FromServices] AppDbContext db)
         {
-            var names = await _blob.ListFilesAsync();
-            return Ok(names);
+            var list = await db.Recordings.ToListAsync();
+            return Ok(list);
         }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Upload([FromForm] FileUploadDto dto, [FromServices] AppDbContext db)
+        public async Task<ActionResult<RecordingMetadata>> Upload([FromForm] FileUploadDto dto, [FromServices] AppDbContext db)
         {
-            var file = dto.File;
-
-            if (file == null || file.Length == 0)
+            if (dto.File == null || dto.File.Length == 0)
                 return BadRequest("Keine Datei hochgeladen.");
 
-            using var stream = file.OpenReadStream();
-            await _blob.UploadAsync(file.FileName, stream);
+            using var stream = dto.File.OpenReadStream();
+            await _blob.UploadAsync(dto.File.FileName, stream);
 
             var metadata = new RecordingMetadata
             {
-                FileName = file.FileName,
-                FileSize = file.Length,
+                FileName = dto.File.FileName,
+                Comment = dto.Comment ?? string.Empty,
+                FileSize = dto.File.Length,
                 UploadedAt = DateTime.UtcNow
             };
 
             db.Recordings.Add(metadata);
             await db.SaveChangesAsync();
 
-            return Ok(new { message = $"Datei '{file.FileName}' hochgeladen und Metadaten gespeichert." });
+            return Ok(metadata);
         }
-
 
 
         [HttpGet("{fileName}")] // GET /files/{fileName}

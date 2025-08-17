@@ -16,7 +16,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StringStringStringString<>f__AnonymousType2"
+                  "$ref": "#/components/schemas/StringStringStringString<>f__AnonymousType1"
                 }
               }
             }
@@ -31,7 +31,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordingMetadata"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordingMetadata"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordingMetadata"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -51,6 +77,9 @@
                   "file": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "comment": {
+                    "type": "string"
                   }
                 }
               }
@@ -59,7 +88,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingMetadata"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingMetadata"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingMetadata"
+                }
+              }
+            }
           }
         }
       }
@@ -111,7 +157,33 @@
   },
   "components": {
     "schemas": {
-      "StringStringStringString<>f__AnonymousType2": {
+      "RecordingMetadata": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringStringStringString<>f__AnonymousType1": {
         "type": "object",
         "properties": {
           "storageAccountName": {
