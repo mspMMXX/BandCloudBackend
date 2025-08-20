@@ -3,6 +3,10 @@ using Azure.Storage.Blobs;
 
 namespace BandCloudBackend.Services
 {
+    /// <summary>
+    /// Kapselt den Zugriff auf Azure Blob Storage für Listen, Upload, Download und Streaming.
+    /// Authentifiziert über <see cref="DefaultAzureCredential"/> und liest Account/Container aus <see cref="IConfiguration"/>.
+    /// </summary>
     public class BlobStorageService
     {
         //Verbindung zum Azure Blob Storage
@@ -10,7 +14,14 @@ namespace BandCloudBackend.Services
         //Speichert in welchem Container gearbeitet wird
         private readonly string _containerName;
 
-        //Aus IConfiguration (appsettings.json) die notwendigen Daten lesen
+        /// <summary>
+        /// Erstellt den Service und initialisiert den <see cref="BlobServiceClient"/>.
+        /// Erwartet in der Konfiguration: <c>STORAGE_ACCOUNT_NAME</c> und <c>STORAGE_CONTAINER</c>.
+        /// </summary>
+        /// <param name="config">Konfiguration (z. B. appsettings, App Settings in Azure).</param>
+        /// <exception cref="InvalidOperationException">
+        /// Wenn <c>STORAGE_ACCOUNT_NAME</c> oder <c>STORAGE_CONTAINER</c> fehlen.
+        /// </exception>
         public BlobStorageService(IConfiguration config)
         {
             // Namen & Container werden aus der IConfiguration gelesen
@@ -26,7 +37,10 @@ namespace BandCloudBackend.Services
             _blobServiceClient = new BlobServiceClient(serviceUri, new DefaultAzureCredential());
         }
 
-        // Gibt eine Liste aller Blob-Namen aus dem Container zurück
+        /// <summary>
+        /// Listet alle Blob-Namen im konfigurierten Container.
+        /// </summary>
+        /// <returns>Liste der Blob-Namen.</returns>
         public async Task<List<string>> ListFilesAsync()
         {
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
@@ -38,7 +52,11 @@ namespace BandCloudBackend.Services
             return result;
         }
 
-        // Datei hochladen
+        /// <summary>
+        /// Lädt eine Datei in den Container hoch (überschreibt vorhandene Datei gleichen Namens).
+        /// </summary>
+        /// <param name="fileName">Ziel-Dateiname (Blob-Name).</param>
+        /// <param name="content">Quelldaten als Stream.</param>
         public async Task UploadAsync(string fileName, Stream content)
         {
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
@@ -47,7 +65,13 @@ namespace BandCloudBackend.Services
             await blob.UploadAsync(content, overwrite: true);
         }
 
-        //Datei herunterladen
+        /// <summary>
+        /// Lädt eine Datei aus dem Container herunter.
+        /// </summary>
+        /// <param name="fileName">Dateiname (Blob-Name).</param>
+        /// <returns>
+        /// Datenstream der Datei oder <c>null</c>, falls der Blob nicht existiert.
+        /// </returns>
         public async Task<Stream> DownloadAsync(string fileName)
         {
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
@@ -61,7 +85,13 @@ namespace BandCloudBackend.Services
             return null;
         }
 
-        //Datei-Stream abrufen und Content-Type ermitteln
+        /// <summary>
+        /// Öffnet einen Read-Stream für eine Datei und liefert den Content-Type anhand der Dateiendung.
+        /// </summary>
+        /// <param name="fileName">Dateiname (Blob-Name).</param>
+        /// <returns>
+        /// Tupel aus Stream und Content-Type oder <c>null</c>, wenn der Blob nicht existiert.
+        /// </returns>
         public async Task<(Stream Stream, string ContentType)?> GetFileStreamAsync(string fileName)
         {
             var container = _blobServiceClient.GetBlobContainerClient(_containerName);
