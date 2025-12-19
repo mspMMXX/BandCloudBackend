@@ -19,27 +19,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ./BandCloudBackend/BandCloudBackend.csproj
+        run: dotnet restore ./BandCloudBackend.csproj
 
       - name: Build
-        run: dotnet build ./BandCloudBackend/BandCloudBackend.csproj --configuration Release --no-restore
+        run: dotnet build ./BandCloudBackend.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./BandCloudBackend/BandCloudBackend.csproj -c Release -o ./publish
+        run: dotnet publish ./BandCloudBackend.csproj -c Release -o ./publish
 
       - name: Upload artifact for debugging
         uses: actions/upload-artifact@v4
         with:
           name: published-app
           path: ./publish
-
-      - name: 'Login to Azure'
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: 'Deploy to Azure WebApp'
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: bandcloud-api
-          package: ./publish
